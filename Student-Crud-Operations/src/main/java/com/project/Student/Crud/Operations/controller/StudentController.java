@@ -54,12 +54,17 @@ public class StudentController {
 	}
 	
 	@PutMapping("/student/update/{id}")
-	public Student updateStudents(@PathVariable int id) {
-		Student student = studentRepository.findById(id).get();
-		student.setName("Yogesh");
-		student.setPercentage(69);
-		studentRepository.save(student);
-		return student;
+	public ResponseEntity<Student> updateStudents(@PathVariable int id) {
+		try {
+			Student student = studentRepository.findById(id).get();
+			student.setName("Yogesh");
+			student.setPercentage(69);
+			studentRepository.save(student);
+			return ResponseEntity.ok().body(student);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.internalServerError().build();
+		}
 	}
 	
 //	@DeleteMapping("/student/delete/{id}")
