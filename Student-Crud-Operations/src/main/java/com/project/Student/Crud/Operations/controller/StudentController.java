@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.Student.Crud.Operations.entity.Student;
+import com.project.Student.Crud.Operations.exception.StudentNotFoundException;
 import com.project.Student.Crud.Operations.repository.StudentRepository;
 
 @RestController
@@ -37,14 +38,15 @@ public class StudentController {
 	}
 	
 	@GetMapping("/students/{id}")
-	public ResponseEntity<Student> getStudent(@PathVariable int id) {
-		try {
-			 Student student = studentRepository.findById(id).get();
-			 return ResponseEntity.ok(student);
-		} catch(Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.internalServerError().build();
+	public Student getStudent(@PathVariable int id) throws StudentNotFoundException {
+		Optional<Student> student = studentRepository.findById(id);
+		if(student.isEmpty()) {  //null will not return this message because its empty(meaning not present in the database table)
+			throw new StudentNotFoundException("Student with ID " + id + " not found");
 		}
+		else {
+			return student.get();
+		}
+		
 	}
 	
 	@PostMapping("/student/add")
