@@ -20,6 +20,8 @@ import com.project.Student.Crud.Operations.entity.Student;
 import com.project.Student.Crud.Operations.exception.StudentNotFoundException;
 import com.project.Student.Crud.Operations.repository.StudentRepository;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class StudentController {
 	
@@ -51,7 +53,7 @@ public class StudentController {
 	
 	@PostMapping("/student/add")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public void createStudent(@RequestBody Student student) {
+	public void createStudent(@RequestBody @Valid Student student) {  // @Valid Bean Validation
 		studentRepository.save(student);
 	}
 	

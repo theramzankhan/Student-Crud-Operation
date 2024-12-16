@@ -1,11 +1,17 @@
 package com.project.Student.Crud.Operations.entity;
 
+import org.springframework.validation.annotation.Validated;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "student")
@@ -15,10 +21,14 @@ public class Student {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int rollNo;
 	@Column(name = "student_name")
+	@NotNull(message = "Student name can't be null")
 	private String name;
 	@Column(name = "student_percentage")
+	@Min(35)
+	@Max(100)
 	private float percentage;
 	@Column(name = "student_branch")
+	@NotBlank
 	private String branch;
 	
 	public Student() {
